@@ -30,7 +30,7 @@ export default function Layout() {
         <Drawer.Screen
           name="login"
           options={{
-            drawerItemStyle: { display: "none" },
+            drawerItemStyle: { display: "none" }, // não mostra no drawer
             swipeEnabled: false, // impede gesto para abrir
           }}
         />
