@@ -1,6 +1,6 @@
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Drawer } from "expo-router/drawer";
-import { Feather } from "@expo/vector-icons";
+import { Feather, Ionicons } from "@expo/vector-icons";
 
 export default function Layout() {
   return (
@@ -28,11 +28,34 @@ export default function Layout() {
         }}
       >
         <Drawer.Screen
+          name="login"
+          options={{
+            drawerItemStyle: { display: "none" },
+            swipeEnabled: false, // impede gesto para abrir
+            drawerLabel: "Inicio",
+            drawerIcon: ({ color }) => (
+              <Ionicons name="log-in" size={20} color={color} />
+            ),
+          }}
+        />
+        <Drawer.Screen
+          name="signin"
+          options={{
+            drawerItemStyle: { display: "none" },
+            swipeEnabled: false, // impede gesto para abrir
+            drawerLabel: "Inicio",
+            drawerIcon: ({ color }) => (
+              <Ionicons name="log-in" size={20} color={color} />
+            ),
+          }}
+        />
+
+        <Drawer.Screen
           name="index"
           options={{
             drawerLabel: "Inicio",
             drawerIcon: ({ color }) => (
-              <Feather name="home" size={20} color={color} />
+              <Ionicons name="home" size={20} color={color} />
             ),
           }}
         />
@@ -42,7 +65,7 @@ export default function Layout() {
           options={{
             drawerLabel: "Bíblia",
             drawerIcon: ({ color }) => (
-              <Feather name="book-open" size={20} color={color} />
+              <Ionicons name="book" size={20} color={color} />
             ),
           }}
         />
@@ -52,7 +75,11 @@ export default function Layout() {
           options={{
             drawerLabel: "Sobre",
             drawerIcon: ({ color }) => (
-              <Feather name="info" size={20} color={color} />
+              <Ionicons
+                name="information-circle-sharp"
+                size={20}
+                color={color}
+              />
             ),
           }}
         />

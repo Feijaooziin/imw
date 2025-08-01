@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native";
 import { DrawerSceneWrapper } from "../components/drawer-Scene-wrapper";
 import { Header } from "../components/Header";
+import { router } from "expo-router";
 
 export default function Index() {
   return (

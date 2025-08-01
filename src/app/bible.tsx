@@ -11,7 +11,7 @@ import {
 import { Picker } from "@react-native-picker/picker";
 import { DrawerSceneWrapper } from "../components/drawer-Scene-wrapper";
 import { Header } from "../components/Header";
-import { Feather } from "@expo/vector-icons";
+import { Feather, Ionicons } from "@expo/vector-icons";
 
 type LivroJSON = {
   name: string;
@@ -162,12 +162,12 @@ export default function Bible() {
 
         <View style={styles.navButtons}>
           <TouchableOpacity style={styles.navButton} onPress={capituloAnterior}>
-            <Feather name="arrow-left" size={20} color={"white"} />
+            <Ionicons name="arrow-back" size={20} color={"white"} />
             <Text style={styles.navButtonText}>Capítulo Anterior</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.navButton} onPress={proximoCapitulo}>
             <Text style={styles.navButtonText}>Próximo Capítulo</Text>
-            <Feather name="arrow-right" size={20} color={"white"} />
+            <Ionicons name="arrow-forward" size={20} color={"white"} />
           </TouchableOpacity>
         </View>
 
@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginTop: 16,
-    marginBottom: 36,
+    marginBottom: 54,
   },
   navButton: {
     flexDirection: "row",
