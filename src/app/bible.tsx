@@ -51,7 +51,7 @@ export default function Bible() {
 
   return (
     <DrawerSceneWrapper>
-      <Header title="bíblia" />
+      <Header name="bíblia" />
       <View style={styles.container}>
         <TextInput
           style={styles.input}

@@ -5,7 +5,7 @@ import { Header } from "../components/Header";
 export default function Index() {
   return (
     <DrawerSceneWrapper>
-      <Header title="Início" />
+      <Header name="Início" />
     </DrawerSceneWrapper>
   );
 }

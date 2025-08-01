@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 
 interface HeaderProps {
   name: string;
-  label: string;
+  label?: string;
   onPress?: () => void;
 }
 
