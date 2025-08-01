@@ -1,11 +1,13 @@
 import { DrawerToggleButton } from "@react-navigation/drawer";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 
 interface HeaderProps {
-  title: string;
+  name: string;
+  label: string;
+  onPress?: () => void;
 }
 
-export function Header({ title }: HeaderProps) {
+export function Header({ name, label, onPress }: HeaderProps) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -23,8 +25,13 @@ export function Header({ title }: HeaderProps) {
         <DrawerToggleButton />
       </View>
 
-      <View style={{ marginTop: 18 }}>
-        <Text style={styles.title}>{title}</Text>
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>{name}</Text>
+        {onPress && (
+          <TouchableOpacity style={styles.configButton} onPress={onPress}>
+            <Text style={styles.configButtonText}>{label}</Text>
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );
@@ -36,6 +43,7 @@ const styles = StyleSheet.create({
     paddingTop: 40,
     backgroundColor: "#efefef",
   },
+
   header: {
     flexDirection: "row",
     alignItems: "center",
@@ -43,6 +51,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#888",
   },
+
   img: {
     width: 50,
     height: 50,
@@ -50,21 +59,49 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 5,
   },
+
   user: {
     flex: 1,
     justifyContent: "center",
   },
+
   hi: {
     fontSize: 14,
     fontWeight: "300",
   },
+
   username: {
     fontSize: 20,
     fontWeight: "700",
   },
+
+  titleContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 18,
+  },
+
   title: {
+    flex: 1,
     textTransform: "uppercase",
     fontSize: 24,
     fontWeight: "900",
+    color: "#000",
+    lineHeight: 28,
+  },
+
+  configButton: {
+    backgroundColor: "#0683bd",
+    paddingHorizontal: 18,
+    paddingVertical: 10,
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  configButtonText: {
+    color: "#fff",
+    fontWeight: "900",
+    textTransform: "uppercase",
   },
 });

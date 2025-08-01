@@ -5,121 +5,93 @@ import {
   StyleSheet,
   ScrollView,
   ActivityIndicator,
-  useColorScheme,
   TouchableOpacity,
+  Modal,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { DrawerSceneWrapper } from "../components/drawer-Scene-wrapper";
 import { Header } from "../components/Header";
+import { Feather } from "@expo/vector-icons";
 
-const livros = [
-  // Antigo Testamento
-  { nome: "Gênesis", codigo: "genesis", capitulos: 50 },
-  { nome: "Êxodo", codigo: "exodo", capitulos: 40 },
-  { nome: "Levítico", codigo: "levitico", capitulos: 27 },
-  { nome: "Números", codigo: "numeros", capitulos: 36 },
-  { nome: "Deuteronômio", codigo: "deuteronomio", capitulos: 34 },
-  { nome: "Josué", codigo: "josue", capitulos: 24 },
-  { nome: "Juízes", codigo: "juizes", capitulos: 21 },
-  { nome: "Rute", codigo: "rute", capitulos: 4 },
-  { nome: "1 Samuel", codigo: "1samuel", capitulos: 31 },
-  { nome: "2 Samuel", codigo: "2samuel", capitulos: 24 },
-  { nome: "1 Reis", codigo: "1reis", capitulos: 22 },
-  { nome: "2 Reis", codigo: "2reis", capitulos: 25 },
-  { nome: "1 Crônicas", codigo: "1cronicas", capitulos: 29 },
-  { nome: "2 Crônicas", codigo: "2cronicas", capitulos: 36 },
-  { nome: "Esdras", codigo: "esdras", capitulos: 10 },
-  { nome: "Neemias", codigo: "neemias", capitulos: 13 },
-  { nome: "Ester", codigo: "ester", capitulos: 10 },
-  { nome: "Jó", codigo: "jo", capitulos: 42 },
-  { nome: "Salmos", codigo: "salmos", capitulos: 150 },
-  { nome: "Provérbios", codigo: "proverbios", capitulos: 31 },
-  { nome: "Eclesiastes", codigo: "eclesiastes", capitulos: 12 },
-  { nome: "Cantares", codigo: "cantares", capitulos: 8 },
-  { nome: "Isaías", codigo: "isaias", capitulos: 66 },
-  { nome: "Jeremias", codigo: "jeremias", capitulos: 52 },
-  { nome: "Lamentações", codigo: "lamentacoes", capitulos: 5 },
-  { nome: "Ezequiel", codigo: "ezequiel", capitulos: 48 },
-  { nome: "Daniel", codigo: "daniel", capitulos: 12 },
-  { nome: "Oséias", codigo: "oseias", capitulos: 14 },
-  { nome: "Joel", codigo: "joel", capitulos: 3 },
-  { nome: "Amós", codigo: "amos", capitulos: 9 },
-  { nome: "Obadias", codigo: "obadias", capitulos: 1 },
-  { nome: "Jonas", codigo: "jonas", capitulos: 4 },
-  { nome: "Miquéias", codigo: "miqueias", capitulos: 7 },
-  { nome: "Naum", codigo: "naum", capitulos: 3 },
-  { nome: "Habacuque", codigo: "habacuque", capitulos: 3 },
-  { nome: "Sofonias", codigo: "sofonias", capitulos: 3 },
-  { nome: "Ageu", codigo: "ageu", capitulos: 2 },
-  { nome: "Zacarias", codigo: "zacarias", capitulos: 14 },
-  { nome: "Malaquias", codigo: "malaquias", capitulos: 4 },
-
-  // Novo Testamento
-  { nome: "Mateus", codigo: "mateus", capitulos: 28 },
-  { nome: "Marcos", codigo: "marcos", capitulos: 16 },
-  { nome: "Lucas", codigo: "lucas", capitulos: 24 },
-  { nome: "João", codigo: "joao", capitulos: 21 },
-  { nome: "Atos", codigo: "atos", capitulos: 28 },
-  { nome: "Romanos", codigo: "romanos", capitulos: 16 },
-  { nome: "1 Coríntios", codigo: "1corintios", capitulos: 16 },
-  { nome: "2 Coríntios", codigo: "2corintios", capitulos: 13 },
-  { nome: "Gálatas", codigo: "galatas", capitulos: 6 },
-  { nome: "Efésios", codigo: "efesios", capitulos: 6 },
-  { nome: "Filipenses", codigo: "filipenses", capitulos: 4 },
-  { nome: "Colossenses", codigo: "colossenses", capitulos: 4 },
-  { nome: "1 Tessalonicenses", codigo: "1tessalonicenses", capitulos: 5 },
-  { nome: "2 Tessalonicenses", codigo: "2tessalonicenses", capitulos: 3 },
-  { nome: "1 Timóteo", codigo: "1timoteo", capitulos: 6 },
-  { nome: "2 Timóteo", codigo: "2timoteo", capitulos: 4 },
-  { nome: "Tito", codigo: "tito", capitulos: 3 },
-  { nome: "Filemom", codigo: "filemom", capitulos: 1 },
-  { nome: "Hebreus", codigo: "hebreus", capitulos: 13 },
-  { nome: "Tiago", codigo: "tiago", capitulos: 5 },
-  { nome: "1 Pedro", codigo: "1pedro", capitulos: 5 },
-  { nome: "2 Pedro", codigo: "2pedro", capitulos: 3 },
-  { nome: "1 João", codigo: "1joao", capitulos: 5 },
-  { nome: "2 João", codigo: "2joao", capitulos: 1 },
-  { nome: "3 João", codigo: "3joao", capitulos: 1 },
-  { nome: "Judas", codigo: "judas", capitulos: 1 },
-  { nome: "Apocalipse", codigo: "apocalipse", capitulos: 22 },
-];
+type LivroJSON = {
+  abbrev: string;
+  chapters: string[][];
+};
 
 export default function Bible3() {
-  const scheme = useColorScheme();
-  const darkMode = scheme === "dark";
-
-  const [livro, setLivro] = useState(livros[0]);
+  const [versao, setVersao] = useState("nvi");
+  const [bibleData, setBibleData] = useState<LivroJSON[]>([]);
+  const [livros, setLivros] = useState<
+    { nome: string; codigo: string; capitulos: number }[]
+  >([]);
+  const [livro, setLivro] = useState<{
+    nome: string;
+    codigo: string;
+    capitulos: number;
+  } | null>(null);
   const [capitulo, setCapitulo] = useState(1);
-  const [resultado, setResultado] = useState("");
+  const [versiculos, setVersiculos] = useState<string[]>([]);
   const [carregando, setCarregando] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
 
-  useEffect(() => {
-    buscarBiblia(livro.codigo, capitulo);
-  }, [livro, capitulo]);
-
-  const buscarBiblia = async (livroCod: string, cap: number): Promise<void> => {
+  //Carregar JSON da versão selecionada dinamicamente
+  const carregarVersao = async (novaVersao: string) => {
     setCarregando(true);
-    setResultado("");
-
     try {
-      const url = `https://bible-api.com/${livroCod}+${cap}?translation=almeida`;
-      const response = await fetch(url);
-      const data = await response.json();
-
-      if (data.text) {
-        setResultado(data.text);
-      } else {
-        setResultado("Texto não encontrado.");
+      let data: LivroJSON[] = [];
+      if (novaVersao === "aa") {
+        data = require("../data/bible_aa.json");
+      } else if (novaVersao === "acf") {
+        data = require("../data/bible_acf.json");
+      } else if (novaVersao === "nvi") {
+        data = require("../data/bible_nvi.json");
       }
-    } catch (error) {
-      setResultado("Erro na busca.");
+
+      setBibleData(data);
+
+      const livrosLista = data.map((livro) => ({
+        nome: livro.abbrev.toUpperCase(),
+        codigo: livro.abbrev,
+        capitulos: livro.chapters.length,
+      }));
+
+      setLivros(livrosLista);
+      setLivro(livrosLista[0]);
+      setCapitulo(1);
+    } catch (e) {
+      console.error("Erro ao carregar versão:", e);
+    } finally {
+      setCarregando(false);
+    }
+  };
+
+  //Buscar capítulo
+  const buscarBiblia = () => {
+    if (!livro) return;
+    setCarregando(true);
+
+    const livroData = bibleData.find((l) => l.abbrev === livro.codigo);
+    if (livroData && livroData.chapters[capitulo - 1]) {
+      setVersiculos(livroData.chapters[capitulo - 1]);
+    } else {
+      setVersiculos(["Texto não encontrado."]);
     }
 
     setCarregando(false);
   };
 
+  //Carrega versão inicial
+  useEffect(() => {
+    carregarVersao(versao);
+  }, [versao]);
+
+  //Atualiza capítulo quando troca livro ou capítulo
+  useEffect(() => {
+    buscarBiblia();
+  }, [livro, capitulo, bibleData]);
+
   const proximoCapitulo = () => {
-    if (capitulo < livro.capitulos) {
+    if (livro && capitulo < livro.capitulos) {
       setCapitulo(capitulo + 1);
     }
   };
@@ -132,54 +104,127 @@ export default function Bible3() {
 
   return (
     <DrawerSceneWrapper>
-      <Header title="bíblia" />
+      <Header
+        name="Bíblia"
+        label={`📖 - ${versao}`}
+        onPress={() => setModalVisible(true)}
+      />
       <View style={styles.container}>
-        <Text style={styles.label}>Livro</Text>
-        <Picker
-          selectedValue={livro.codigo}
-          style={styles.picker}
-          onValueChange={(itemValue) => {
-            const novoLivro =
-              livros.find((l) => l.codigo === itemValue) || livros[0];
-            setLivro(novoLivro);
-            setCapitulo(1);
-          }}
-        >
-          {livros.map((item) => (
-            <Picker.Item
-              key={item.codigo}
-              label={item.nome}
-              value={item.codigo}
-            />
-          ))}
-        </Picker>
+        {livros.length > 0 && (
+          <>
+            <Text style={styles.label}>Livro</Text>
+            <Picker
+              selectedValue={livro?.codigo}
+              style={styles.picker}
+              onValueChange={(itemValue) => {
+                const novoLivro =
+                  livros.find((l) => l.codigo === itemValue) || livros[0];
+                setLivro(novoLivro);
+                setCapitulo(1);
+              }}
+            >
+              {livros.map((item) => (
+                <Picker.Item
+                  key={item.codigo}
+                  label={item.nome}
+                  value={item.codigo}
+                />
+              ))}
+            </Picker>
 
-        <Text style={styles.label}>Capítulo</Text>
-        <Picker
-          selectedValue={capitulo}
-          style={styles.picker}
-          onValueChange={(itemValue) => setCapitulo(itemValue)}
-        >
-          {Array.from({ length: livro.capitulos }, (_, i) => (
-            <Picker.Item key={i + 1} label={`${i + 1}`} value={i + 1} />
-          ))}
-        </Picker>
+            <Text style={styles.label}>Capítulo</Text>
+            <Picker
+              selectedValue={capitulo}
+              style={styles.picker}
+              onValueChange={(itemValue) => setCapitulo(itemValue)}
+            >
+              {Array.from({ length: livro?.capitulos || 1 }, (_, i) => (
+                <Picker.Item key={i + 1} label={`${i + 1}`} value={i + 1} />
+              ))}
+            </Picker>
+          </>
+        )}
 
         <ScrollView style={styles.resultBox}>
           {carregando ? (
             <ActivityIndicator size="large" color="#000" />
           ) : (
-            <Text style={styles.result}>{resultado}</Text>
+            versiculos.map((v, index) => (
+              <Text key={index} style={styles.result}>
+                <Text style={{ fontWeight: "bold" }}>{index + 1}. </Text>
+                {v}
+              </Text>
+            ))
           )}
         </ScrollView>
+
         <View style={styles.navButtons}>
           <TouchableOpacity style={styles.navButton} onPress={capituloAnterior}>
-            <Text style={styles.navButtonText}>⬅ Anterior</Text>
+            <Feather name="arrow-left" size={20} color={"white"} />
+            <Text style={styles.navButtonText}>Capítulo Anterior</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.navButton} onPress={proximoCapitulo}>
-            <Text style={styles.navButtonText}>Próximo ➡</Text>
+            <Text style={styles.navButtonText}>Próximo Capítulo</Text>
+            <Feather name="arrow-right" size={20} color={"white"} />
           </TouchableOpacity>
         </View>
+
+        {/* Modal de Configurações */}
+        <Modal
+          visible={modalVisible}
+          transparent
+          animationType="slide"
+          onRequestClose={() => setModalVisible(false)}
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <Text style={styles.modalTitle}>Escolher Versão da Bíblia</Text>
+
+              <TouchableOpacity
+                style={styles.modalOption}
+                onPress={() => {
+                  setVersao("nvi");
+                  setModalVisible(false);
+                }}
+              >
+                <Text style={styles.modalOptionText}>
+                  📖 NVI - Nova Versão Internacional
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.modalOption}
+                onPress={() => {
+                  setVersao("aa");
+                  setModalVisible(false);
+                }}
+              >
+                <Text style={styles.modalOptionText}>
+                  📖 AA - Almeida Atualizada
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.modalOption}
+                onPress={() => {
+                  setVersao("acf");
+                  setModalVisible(false);
+                }}
+              >
+                <Text style={styles.modalOptionText}>
+                  📖 ACF - Almeida Corrigida Fiel
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.closeButton}
+                onPress={() => setModalVisible(false)}
+              >
+                <Text style={styles.closeButtonText}>Fechar</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
       </View>
     </DrawerSceneWrapper>
   );
@@ -207,11 +252,15 @@ const styles = StyleSheet.create({
     marginBottom: 36,
   },
   navButton: {
+    flexDirection: "row",
     backgroundColor: "#0683bd",
     padding: 10,
+    paddingHorizontal: 25,
+    gap: 12,
     borderRadius: 5,
     width: "48%",
     alignItems: "center",
+    justifyContent: "space-between",
   },
   navButtonText: {
     color: "#fff",
@@ -226,5 +275,42 @@ const styles = StyleSheet.create({
   result: {
     fontSize: 18,
     lineHeight: 26,
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContent: {
+    backgroundColor: "#fff",
+    padding: 20,
+    width: "80%",
+    borderRadius: 8,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 15,
+    textAlign: "center",
+  },
+  modalOption: {
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+  },
+  modalOptionText: {
+    fontSize: 16,
+  },
+  closeButton: {
+    marginTop: 15,
+    backgroundColor: "#0683bd",
+    padding: 10,
+    borderRadius: 5,
+    alignItems: "center",
+  },
+  closeButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
   },
 });
