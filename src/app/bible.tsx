@@ -9,8 +9,8 @@ import {
   Modal,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
-import { DrawerSceneWrapper } from "../components/drawer-Scene-wrapper";
-import { Header } from "../components/Header";
+import { DrawerSceneWrapper } from "@/components/drawer-Scene-wrapper";
+import { Header } from "@/components/Header";
 import { Feather } from "@expo/vector-icons";
 
 type LivroJSON = {
