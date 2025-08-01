@@ -37,12 +37,33 @@ export default function Layout() {
             ),
           }}
         />
+
         <Drawer.Screen
-          name="products"
+          name="bible"
           options={{
-            drawerLabel: "Produtos",
+            drawerLabel: "Bíblia",
             drawerIcon: ({ color }) => (
-              <Feather name="bell" size={20} color={color} />
+              <Feather name="book-open" size={20} color={color} />
+            ),
+          }}
+        />
+
+        <Drawer.Screen
+          name="bible2"
+          options={{
+            drawerLabel: "Teste",
+            drawerIcon: ({ color }) => (
+              <Feather name="book-open" size={20} color={color} />
+            ),
+          }}
+        />
+
+        <Drawer.Screen
+          name="about"
+          options={{
+            drawerLabel: "Sobre",
+            drawerIcon: ({ color }) => (
+              <Feather name="info" size={20} color={color} />
             ),
           }}
         />

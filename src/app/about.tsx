@@ -1,17 +1,12 @@
 import { DrawerToggleButton } from "@react-navigation/drawer";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { DrawerSceneWrapper } from "../components/drawer-Scene-wrapper";
+import { Header } from "../components/Header";
 
-export default function Products() {
+export default function About() {
   return (
     <DrawerSceneWrapper>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.title}>Produtos</Text>
-
-          <DrawerToggleButton />
-        </View>
-      </View>
+      <Header title="Sobre" />
     </DrawerSceneWrapper>
   );
 }

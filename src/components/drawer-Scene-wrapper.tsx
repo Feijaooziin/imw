@@ -36,7 +36,9 @@ export function DrawerSceneWrapper({ children }: { children: ReactNode }) {
     overflow: "hidden",
   }));
   return (
-    <Animated.View style={[{ flex: 1 }, animatedStyle]}>
+    <Animated.View
+      style={[{ flex: 1, justifyContent: "flex-start" }, animatedStyle]}
+    >
       {children}
     </Animated.View>
   );
