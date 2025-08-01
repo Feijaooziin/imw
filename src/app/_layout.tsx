@@ -12,7 +12,6 @@ export default function Layout() {
           drawerInactiveBackgroundColor: "transparent",
           drawerInactiveTintColor: "#777",
           drawerActiveTintColor: "#FFF",
-          drawerHideStatusBarOnOpen: true,
           overlayColor: "transparent",
           drawerStyle: {
             backgroundColor: "#292929",
@@ -42,16 +41,6 @@ export default function Layout() {
           name="bible"
           options={{
             drawerLabel: "Bíblia",
-            drawerIcon: ({ color }) => (
-              <Feather name="book-open" size={20} color={color} />
-            ),
-          }}
-        />
-
-        <Drawer.Screen
-          name="bible2"
-          options={{
-            drawerLabel: "Teste",
             drawerIcon: ({ color }) => (
               <Feather name="book-open" size={20} color={color} />
             ),
