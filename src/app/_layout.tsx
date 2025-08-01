@@ -36,6 +36,14 @@ export default function Layout() {
         />
 
         <Drawer.Screen
+          name="signin"
+          options={{
+            drawerItemStyle: { display: "none" }, // não mostra no drawer
+            swipeEnabled: false, // impede gesto para abrir
+          }}
+        />
+
+        <Drawer.Screen
           name="index"
           options={{
             drawerLabel: "Inicio",

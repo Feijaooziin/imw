@@ -8,12 +8,9 @@ import {
   TextInput,
 } from "react-native";
 
-export default function Login() {
+export default function Signin() {
   const handleLogin = function () {
     router.navigate("/");
-  };
-  const handleSignin = function () {
-    router.navigate("/signin");
   };
   return (
     <View style={styles.container}>
@@ -29,7 +26,7 @@ export default function Login() {
           <Text style={styles.username}>Cachoeira</Text>
         </View>
       </View>
-      <Text style={styles.title}>Login</Text>
+      <Text style={styles.title}>Cadastro</Text>
 
       <View style={styles.form}>
         <Text style={styles.inputLabel}>Email</Text>
@@ -40,10 +37,6 @@ export default function Login() {
       </View>
       <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
         <Text style={styles.loginLabel}>Entrar</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={{ flexDirection: "row" }} onPress={handleSignin}>
-        <Text style={styles.signinLabel}>Não tem uma conta? </Text>
-        <Text style={styles.signinLabel2}>Cadastre-se</Text>
       </TouchableOpacity>
     </View>
   );
