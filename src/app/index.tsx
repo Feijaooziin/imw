@@ -1,19 +1,18 @@
-import { StyleSheet } from "react-native";
-import { DrawerSceneWrapper } from "../components/drawer-Scene-wrapper";
-import { Header } from "../components/Header";
-import { router } from "expo-router";
+import { StyleSheet, View, ActivityIndicator } from "react-native";
 
 export default function Index() {
   return (
-    <DrawerSceneWrapper>
-      <Header name="Início" />
-    </DrawerSceneWrapper>
+    <View style={styles.container}>
+      <ActivityIndicator size={50} />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#efefef",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

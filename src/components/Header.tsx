@@ -1,5 +1,6 @@
+import { useAuth } from "@/context/AuthContext";
+import { supabase } from "@/lib/supabase";
 import { DrawerToggleButton } from "@react-navigation/drawer";
-import { router } from "expo-router";
 import { useState } from "react";
 import {
   View,
@@ -8,6 +9,7 @@ import {
   Image,
   TouchableOpacity,
   Modal,
+  Alert,
 } from "react-native";
 
 interface HeaderProps {
@@ -18,11 +20,18 @@ interface HeaderProps {
 
 export function Header({ name, label, onPress }: HeaderProps) {
   const [modalVisible, setModalVisible] = useState(false);
+  const { setAuth, user } = useAuth();
 
-  const handleLogout = function () {
+  async function handleSignout() {
     setModalVisible(false);
-    router.navigate("/login");
-  };
+    const { error } = await supabase.auth.signOut();
+    setAuth(null);
+
+    if (error) {
+      Alert.alert("Error", "Erro ao sair da conta, tente novamente mais tarde");
+      return;
+    }
+  }
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -58,9 +67,12 @@ export function Header({ name, label, onPress }: HeaderProps) {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Perfil</Text>
+            <Text style={styles.modalTitle}>{user?.email}</Text>
 
-            <TouchableOpacity style={styles.modalOption} onPress={handleLogout}>
+            <TouchableOpacity
+              style={styles.modalOption}
+              onPress={handleSignout}
+            >
               <Text style={styles.modalOptionText}>Deslogar</Text>
             </TouchableOpacity>
 

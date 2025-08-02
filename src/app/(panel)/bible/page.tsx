@@ -9,8 +9,8 @@ import {
   Modal,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
-import { DrawerSceneWrapper } from "../components/drawer-Scene-wrapper";
-import { Header } from "../components/Header";
+import { DrawerSceneWrapper } from "@/components/drawer-Scene-wrapper";
+import { Header } from "@/components/Header";
 import { Feather, Ionicons } from "@expo/vector-icons";
 
 type LivroJSON = {
@@ -41,11 +41,11 @@ export default function Bible() {
     try {
       let data: LivroJSON[] = [];
       if (novaVersao === "aa") {
-        data = require("../data/bible_aa.json");
+        data = require("@/data/bible_aa.json");
       } else if (novaVersao === "acf") {
-        data = require("../data/bible_acf.json");
+        data = require("@/data/bible_acf.json");
       } else if (novaVersao === "nvi") {
-        data = require("../data/bible_nvi.json");
+        data = require("@/data/bible_nvi.json");
       }
 
       setBibleData(data);

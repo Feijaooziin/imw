@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { router } from "expo-router";
 import {
   View,
@@ -6,15 +7,37 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
+  Alert,
 } from "react-native";
+import { supabase } from "@/lib/supabase";
 
 export default function Login() {
-  const handleLogin = function () {
-    router.navigate("/");
-  };
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  async function handleLogin() {
+    setLoading(true);
+    setEmail("");
+    setPassword("");
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password,
+    });
+
+    if (error) {
+      Alert.alert("Erro", error.message);
+      setLoading(false);
+      return;
+    }
+
+    setLoading(false);
+    router.replace("/(panel)/homepage/page");
+  }
 
   const handleSignin = function () {
-    router.navigate("/signin");
+    router.navigate("/(auth)/signup/page");
   };
 
   return (
@@ -35,13 +58,26 @@ export default function Login() {
 
       <View style={styles.form}>
         <Text style={styles.inputLabel}>Email</Text>
-        <TextInput placeholder="Digite seu Email..." style={styles.input} />
+        <TextInput
+          placeholder="Digite seu Email..."
+          style={styles.input}
+          value={email}
+          onChangeText={setEmail}
+        />
 
         <Text style={styles.inputLabel}>Senha</Text>
-        <TextInput placeholder="Digite sua Senha..." style={styles.input} />
+        <TextInput
+          placeholder="Digite sua Senha..."
+          style={styles.input}
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+        />
       </View>
       <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-        <Text style={styles.loginLabel}>Entrar</Text>
+        <Text style={styles.loginLabel}>
+          {loading ? "Carregando..." : "Entrar"}
+        </Text>
       </TouchableOpacity>
       <TouchableOpacity style={{ flexDirection: "row" }} onPress={handleSignin}>
         <Text style={styles.signinLabel}>Não tem uma conta? </Text>
@@ -97,13 +133,13 @@ const styles = StyleSheet.create({
     fontWeight: "900",
     color: "#000",
     lineHeight: 28,
-    marginTop: 18,
+    marginTop: 60,
     marginBottom: 8,
   },
 
   form: {
     width: "90%",
-    marginTop: 100,
+    marginTop: 40,
     marginBottom: 48,
   },
 
@@ -117,7 +153,7 @@ const styles = StyleSheet.create({
   input: {
     borderWidth: 1,
     borderRadius: 8,
-    marginBottom: 28,
+    marginBottom: 30,
   },
 
   loginButton: {
@@ -140,7 +176,7 @@ const styles = StyleSheet.create({
   },
   signinLabel2: {
     marginTop: 16,
-    fontWeight: "300",
+    fontWeight: "700",
     color: "blue",
   },
 });
