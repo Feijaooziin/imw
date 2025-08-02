@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { router } from "expo-router";
 import {
   View,
   Text,
@@ -9,6 +8,7 @@ import {
   TextInput,
   Alert,
 } from "react-native";
+import { router } from "expo-router";
 import { supabase } from "@/lib/supabase";
 
 export default function Login() {
@@ -35,10 +35,6 @@ export default function Login() {
     setLoading(false);
     router.replace("/(panel)/homepage/page");
   }
-
-  const handleSignin = function () {
-    router.navigate("/(auth)/signup/page");
-  };
 
   return (
     <View style={styles.container}>
@@ -78,10 +74,6 @@ export default function Login() {
         <Text style={styles.loginLabel}>
           {loading ? "Carregando..." : "Entrar"}
         </Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={{ flexDirection: "row" }} onPress={handleSignin}>
-        <Text style={styles.signinLabel}>Não tem uma conta? </Text>
-        <Text style={styles.signinLabel2}>Cadastre-se</Text>
       </TouchableOpacity>
     </View>
   );
